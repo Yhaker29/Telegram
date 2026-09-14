@@ -11,6 +11,7 @@ def home(admin_ID=None):
             keyboard.button(text=btn,style=admin_buttons[btn])
     keyboard.button(text='як справи?', style='primary')
     keyboard.button(text='дай наліпку')
+    keyboard.button(text='Дай фото')
     return keyboard.adjust(4).as_markup(resize_keyboard=True)
 def start():
     keyboard = ReplyKeyboardBuilder()

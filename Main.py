@@ -66,7 +66,9 @@ async def echo_handler(message: Message) -> None:
 async def echo_handler(message: Message,state) -> None:
     await state.set_state(Menu.home)
     await message.answer(text=f"класно!",reply_markup=home(message.from_user.id))
-
+@dp.message(F.text=='Дай фото')
+async def echo_handler(message: Message) -> None:
+    await message.answer_photo(photo='https://static.ukrinform.com/photos/2022_12/thumb_files/630_360_1671628705-480.jpeg')
 # @dp.message()
 # async def echo_handler(message: Message) -> None:
 #         await message.send_copy(chat_id=message.chat.id)
