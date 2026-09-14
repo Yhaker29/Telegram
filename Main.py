@@ -7,7 +7,7 @@ from aiogram import Bot, Dispatcher, html, F
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
-from aiogram.types import Message, ReplyKeyboardRemove
+from aiogram.types import Message, ReplyKeyboardRemove, FSInputFile
 from aiogram.utils import keyboard
 from buttons_text import Buttons
 from handlers.media_handler import media_router
@@ -68,7 +68,10 @@ async def echo_handler(message: Message,state) -> None:
     await message.answer(text=f"класно!",reply_markup=home(message.from_user.id))
 @dp.message(F.text=='Дай фото')
 async def echo_handler(message: Message) -> None:
-    await message.answer_photo(photo='https://static.ukrinform.com/photos/2022_12/thumb_files/630_360_1671628705-480.jpeg')
+    await message.answer_photo(photo=FSInputFile(r"C:\Users\Yahakerr\Downloads\Ukraine.jpg"))
+    # await message.answer_photo(photo
+    #     ='https://static.ukrinform.com/photos/2022_12/thumb_files/630_360_1671628705-480.jpeg',
+    #         caption='Слава Україні',show_caption_above_media=True)
 # @dp.message()
 # async def echo_handler(message: Message) -> None:
 #         await message.send_copy(chat_id=message.chat.id)
