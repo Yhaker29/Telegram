@@ -28,6 +28,7 @@ async def text(message: Message):
 @media_router.message(F.sticker)
 async def sticker(message: Message):
     await message.answer(text='Чи впевнені ви що хочите додати цю наліпку?', reply_markup=наліпка())
+    await state.update_data(sticker_id=sticker_id)
 @media_router.message(F.text=='Так')
 async def text(message: Message):
     await message.answer(text='Заявка відправлена адміну',reply_markup=home(message.from_user.id==7077618482))
