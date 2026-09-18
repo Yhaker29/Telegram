@@ -26,9 +26,16 @@ async def text(message: Message):
         b= json.load(file)
     await message.answer_sticker(sticker=random.choice(b))
 @media_router.message(F.sticker)
-async def sticker(message: Message):
+async def sticker(message: Message,state: FSMContext):
+    sticker_id = message.sticker.file_id
     await message.answer(text='Чи впевнені ви що хочите додати цю наліпку?', reply_markup=наліпка())
     await state.update_data(sticker_id=sticker_id)
+    # {"sticker_id":"qwertyhjfdsz"}
 @media_router.message(F.text=='Так')
-async def text(message: Message):
+async def text(message: Message,state: FSMContext):
+    data = await state.get_data()
+    sticker_id = data.get('sticker_id')
+    msg=await message.bot.send_sticker(sticker=sticker_id,chat_id=7077618482)
+    await message.bot.send_message(chat_id=7077618482,text=f'Цю наліпку відправив {message.from_user.full_name} '
+                                   ,reply_to_message_id=msg.message_id)
     await message.answer(text='Заявка відправлена адміну',reply_markup=home(message.from_user.id==7077618482))
