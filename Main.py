@@ -68,7 +68,9 @@ async def echo_handler(message: Message,state) -> None:
     await message.answer(text=f"класно!",reply_markup=home(message.from_user.id))
 @dp.message(F.text=='Дай фото')
 async def echo_handler(message: Message) -> None:
-    await message.answer_photo(photo=FSInputFile(r"C:\Users\Yahakerr\Downloads\Ukraine.jpg"))
+    dx=await message.answer_photo(photo=FSInputFile(r"C:\Users\Yahakerr\Downloads\Ukraine.jpg"))
+    print(dx.photo[-1].file_id)
+    await message.answer_photo(photo='AgACAgIAAxkDAAIcaGqtZSnoF03mMvtrVgwHdS_G7o1sAAJwH2sbnPhxSZWdcdX7C2K7AQADAgADeAADPQQ')
     # await message.answer_photo(photo
     #     ='https://static.ukrinform.com/photos/2022_12/thumb_files/630_360_1671628705-480.jpeg',
     #         caption='Слава Україні',show_caption_above_media=True)
