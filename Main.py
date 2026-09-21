@@ -23,11 +23,10 @@ async def command_start_handler(message: Message) -> None:
 @dp.message(F.text=="/command1")
 async def echo_handler(message: Message,state) -> None:
     await message.answer(text="1",reply_markup=home(message.from_user.id))
-    await state.set_state(Menu.home)
 @dp.message(F.photo)
 async def photo_handler(message: Message) -> None:
     await message.answer(text=f"Що?")
-@dp.message(F.text.lower().contains(Buttons.hello),F.from_user.id==7077618482,Menu.home)
+@dp.message(F.text.lower().contains(Buttons.hello),F.from_user.id==7077618482)
 async def echo_handler(message: Message) -> None:
     await message.answer(text=f"Привіт господару")
 @dp.message(F.text.lower()==Buttons.goodbye,F.from_user.id==7077618482)
@@ -46,25 +45,21 @@ async def echo_handler(message: Message) -> None:
 @dp.message(F.text=='goodbye')
 async def echo_handler(message: Message) -> None:
     await message.answer(text=f"hello")
-@dp.message(F.text=='як справи?',Menu.home)
+@dp.message(F.text=='як справи?')
 async def echo_handler(message: Message,state) -> None:
     await message.answer(text=f"обери",reply_markup=як_справи())
-    await state.set_state(Menu.mood)
 @dp.message(F.text=='погано')
 async def echo_handler(message: Message,state) -> None:
     await message.answer(text=f"що сталося?",reply_markup=home(message.from_user.id))
-    await state.set_state(Menu.home)
 @dp.message(F.text=='середнье')
 async def echo_handler(message: Message,state) -> None:
     await message.answer(text=f"це добре!",reply_markup=home(message.from_user.id))
-    await state.set_state(Menu.home)
 @dp.message(F.text == Buttons.roblox)
 async def echo_handler(message: Message) -> None:
     await message.answer(text=f"РОООООООООООООООООООООООООООООООООООООООООООООООООООООООБЛОКС!!!!!!!", reply_markup=home(message.from_user.id))
     await message.answer_sticker(sticker=('CAACAgIAAxkBAAIPHGqQPHqdpiJSXXliRrLJ7VoqawWZAALohwACozrASKe8I-gTzQHwPQQ'))
 @dp.message(F.text=='добре')
 async def echo_handler(message: Message,state) -> None:
-    await state.set_state(Menu.home)
     await message.answer(text=f"класно!",reply_markup=home(message.from_user.id))
 @dp.message(F.text=='Дай фото')
 async def echo_handler(message: Message) -> None:
