@@ -19,7 +19,7 @@ TOKEN = settings.TOKEN
 dp = Dispatcher()
 dp.include_router(media_router)
 
-
+@dp.message(F.text=='Ні',Menu.mood)
 @dp.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
     await message.answer(
