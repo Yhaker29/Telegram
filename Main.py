@@ -9,7 +9,7 @@ from aiogram.filters import CommandStart
 from aiogram.types import Message, ReplyKeyboardRemove, FSInputFile
 from aiogram.utils import keyboard
 from Databaze.engine import session_maker
-from Databaze.queries import add_user
+from Databaze.queries import add_user, get_user, get_users
 from buttons_text import Buttons
 from handlers.media_handler import media_router
 from keyboards import home, start, як_справи
@@ -27,7 +27,22 @@ async def command_start_handler(message: Message) -> None:
         text=f"Привіт, {html.bold(message.from_user.full_name)}!", reply_markup=start()
     )
     async with session_maker() as session:
-        await add_user (session=session, telegram_id=message.from_user.id, telegram_name=message.from_user.full_name,user_name=message.from_user.username)
+        user=await get_user(session,message.from_user.id)
+        if not user:
+            await add_user (session=session, telegram_id=message.from_user.id, telegram_name=message.from_user.full_name,user_name=message.from_user.username)
+
+@dp.message(F.text==Buttons.all_rosilka)
+async def all_rosilka_buttons(message: Message,state) -> None:
+    await message.answer(text="Ведіть повідомлення яку хочите відіслати всім")
+    await state.set_state(Menu.all_rosilka)
+@dp.message(Menu.all_rosilka)
+async def  all_rosilka_buttons(message: Message,state) -> None:
+    await state.set_state(None)
+    async with session_maker() as session:
+        userts= await get_users(session)
+        for user in userts :
+            await message.copy_to(user.telegram_id)
+
 
 @dp.message(F.text == "/command1")
 async def echo_handler(message: Message, state) -> None:

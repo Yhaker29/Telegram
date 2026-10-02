@@ -9,7 +9,7 @@ def home(admin_ID=None):
         if admin_ID==settings.ADMIN_ID:
 
                 # keyboard.button(text=btn, style="danger")
-            keyboard.button(text=btn,style=admin_buttons[btn])
+            keyboard.button(text=btn,style=admin_buttons.get(btn))
     keyboard.button(text='як справи?', style='primary')
     keyboard.button(text='дай наліпку')
     keyboard.button(text='Дай фото')

@@ -3,3 +3,4 @@ class Menu(StatesGroup):
     home=State()
     sticker=State()
     mood=State()
+    all_rosilka=State()
