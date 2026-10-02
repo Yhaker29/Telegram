@@ -1,11 +1,12 @@
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 from buttons_text import Buttons, admin_buttons
+from config import settings
 
 
 def home(admin_ID=None):
     keyboard = ReplyKeyboardBuilder()
     for btn in admin_buttons:
-        if admin_ID==7077618482:
+        if admin_ID==settings.ADMIN_ID:
 
                 # keyboard.button(text=btn, style="danger")
             keyboard.button(text=btn,style=admin_buttons[btn])

@@ -2,13 +2,14 @@ import asyncio
 import logging
 import sys
 from os import getenv
-
 from aiogram import Bot, Dispatcher, html, F
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.types import Message, ReplyKeyboardRemove, FSInputFile
 from aiogram.utils import keyboard
+from Databaze.engine import session_maker
+from Databaze.queries import add_user
 from buttons_text import Buttons
 from handlers.media_handler import media_router
 from keyboards import home, start, як_справи
@@ -25,7 +26,8 @@ async def command_start_handler(message: Message) -> None:
     await message.answer(
         text=f"Привіт, {html.bold(message.from_user.full_name)}!", reply_markup=start()
     )
-
+    async with session_maker() as session:
+        await add_user (session=session, telegram_id=message.from_user.id, telegram_name=message.from_user.full_name,user_name=message.from_user.username)
 
 @dp.message(F.text == "/command1")
 async def echo_handler(message: Message, state) -> None:
@@ -37,12 +39,12 @@ async def photo_handler(message: Message) -> None:
     await message.answer(text=f"Що?")
 
 
-@dp.message(F.text.lower().contains(Buttons.hello), F.from_user.id == 7077618482)
+@dp.message(F.text.lower().contains(Buttons.hello), F.from_user.id == settings.ADMIN_ID)
 async def echo_handler(message: Message) -> None:
     await message.answer(text=f"Привіт господару")
 
 
-@dp.message(F.text.lower() == Buttons.goodbye, F.from_user.id == 7077618482)
+@dp.message(F.text.lower() == Buttons.goodbye, F.from_user.id == settings.ADMIN_ID)
 async def echo_handler(message: Message) -> None:
     await message.answer(text=f"пака господару")
 
