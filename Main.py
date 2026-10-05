@@ -8,6 +8,8 @@ from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
 from aiogram.types import Message, ReplyKeyboardRemove, FSInputFile
 from aiogram.utils import keyboard
+
+from leave_router import leave_router
 from Databaze.engine import session_maker
 from Databaze.queries import add_user, get_user, get_users
 from buttons_text import Buttons
@@ -19,6 +21,7 @@ from config import settings
 TOKEN = settings.TOKEN
 dp = Dispatcher()
 dp.include_router(media_router)
+dp.include_router(leave_router)
 
 @dp.message(F.text=='Ні',Menu.mood)
 @dp.message(CommandStart())
@@ -35,13 +38,19 @@ async def command_start_handler(message: Message) -> None:
 async def all_rosilka_buttons(message: Message,state) -> None:
     await message.answer(text="Ведіть повідомлення яку хочите відіслати всім")
     await state.set_state(Menu.all_rosilka)
+
+
 @dp.message(Menu.all_rosilka)
 async def  all_rosilka_buttons(message: Message,state) -> None:
     await state.set_state(None)
     async with session_maker() as session:
         userts= await get_users(session)
+
         for user in userts :
-            await message.copy_to(user.telegram_id)
+            try:
+                await message.copy_to(user.telegram_id)
+            except:
+                print(user.telegram_name,"block your bot")
 
 
 @dp.message(F.text == "/command1")
