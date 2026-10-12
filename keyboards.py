@@ -14,6 +14,13 @@ def home(admin_ID=None):
     keyboard.button(text='дай наліпку')
     keyboard.button(text='Дай фото')
     return keyboard.adjust(4).as_markup(resize_keyboard=True)
+
+def message_kb(users):
+    keyboard = ReplyKeyboardBuilder()
+    for user in users:
+        keyboard.button(text=user.telegram_name)
+    return keyboard.adjust(3).as_markup(resize_keyboard=True)
+
 def start():
     keyboard = ReplyKeyboardBuilder()
     keyboard.button(text='thhfg')

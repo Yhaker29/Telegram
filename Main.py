@@ -14,7 +14,7 @@ from Databaze.engine import session_maker
 from Databaze.queries import add_user, get_user, get_users
 from buttons_text import Buttons
 from handlers.media_handler import media_router
-from keyboards import home, start, як_справи
+from keyboards import home, start, як_справи, message_kb
 from state import Menu
 from config import settings
 
@@ -39,13 +39,30 @@ async def all_rosilka_buttons(message: Message,state) -> None:
     await message.answer(text="Ведіть повідомлення яку хочите відіслати всім")
     await state.set_state(Menu.all_rosilka)
 
+@dp.message(F.text==Buttons.message)
+async def message_buttons(message: Message,state) -> None:
+    async with session_maker() as session:
+        users=await get_users(session)
+    await message.answer(text="Натисніть на користувача якому ви хочете надіслати повідомлення",reply_markup=message_kb(users))
+    await state.set_state(Menu.message)
+
+@dp.message(Menu.message)
+async def message_buttons(message: Message,state) -> None:
+    user=message.text
+    await message.answer(text=f"Ведіть повідомлення яке ви відправите {user}")
+    await state.set_state(Menu.message_state)
+
+@dp.message(Menu.message_state)
+async def message_buttons(message: Message,state) -> None:
+    await message.answer(text=message.text)
+
+
 
 @dp.message(Menu.all_rosilka)
 async def  all_rosilka_buttons(message: Message,state) -> None:
     await state.set_state(None)
     async with session_maker() as session:
         userts= await get_users(session)
-
         for user in userts :
             try:
                 await message.copy_to(user.telegram_id)
