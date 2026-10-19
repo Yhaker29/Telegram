@@ -7,7 +7,7 @@ from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram import F
 
 from config import settings
-from keyboards import home, наліпка
+from keyboards import home, наліпка, наліпка_адмін
 from state import Menu
 
 media_router = Router()
@@ -35,16 +35,15 @@ async def sticker(message: Message,state: FSMContext):
     # {"sticker_id":"qwertyhjfdsz"}
 
 
-@media_router.message(F.text == 'Так',Menu.mood,F.from_user.id==settings.ADMIN_ID)
+@media_router.message(F.text == 'Так, додати наліпку',F.from_user.id==settings.ADMIN_ID)
 async def mood(message: Message,state: FSMContext):
-    pass
+    print('ТАК ********')
 
-@media_router.message(F.text=='Так')
+@media_router.message(F.text=='Так',F.from_user.id!=settings.ADMIN_ID)
 async def text(message: Message,state: FSMContext):
     data = await state.get_data()
     sticker_id = data.get('sticker_id')
     msg=await message.bot.send_sticker(sticker=sticker_id,chat_id=settings.ADMIN_ID)
     await message.bot.send_message(chat_id=settings.ADMIN_ID,text=f'Цю наліпку відправив {message.from_user.full_name} '
-                                   ,reply_to_message_id=msg.message_id, reply_markup=наліпка())
-    await state.set_state(Menu.mood)
+                                   ,reply_to_message_id=msg.message_id, reply_markup=   наліпка_адмін())
     await message.answer(text='Заявка відправлена адміну',reply_markup=home(message.from_user.id==settings.ADMIN_ID))

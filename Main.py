@@ -10,8 +10,8 @@ from aiogram.types import Message, ReplyKeyboardRemove, FSInputFile
 from aiogram.utils import keyboard
 
 from leave_router import leave_router
-from Databaze.engine import session_maker
-from Databaze.queries import add_user, get_user, get_users
+from Databaze.engine import session_maker, create_db
+from Databaze.queries import add_user, get_user, get_users, get_user_by_telegram_name
 from buttons_text import Buttons
 from handlers.media_handler import media_router
 from keyboards import home, start, як_справи, message_kb
@@ -49,14 +49,26 @@ async def message_buttons(message: Message,state) -> None:
 @dp.message(Menu.message)
 async def message_buttons(message: Message,state) -> None:
     user=message.text
-    await message.answer(text=f"Ведіть повідомлення яке ви відправите {user}")
-    await state.set_state(Menu.message_state)
+    async with session_maker() as session:
+        user1=await get_user_by_telegram_name(session,user)
+        if user1:
+            await message.answer(text=f"Ведіть повідомлення яке ви відправите {user}")
+            await state.set_state(Menu.message_state)
+            await state.update_data(user1=user1.telegram_id)
+            await state.update_data(user1_name=user1.telegram_name)
+
+        else:
+            await message.answer(text=f"Вибери існуйочого користувача!!! геній")
 
 @dp.message(Menu.message_state)
 async def message_buttons(message: Message,state) -> None:
-    await message.answer(text=message.text)
-
-
+    text=message.text
+    data=await state.get_data()
+    user=data.get("user1")
+    user1_name= data.get("user1_name")
+    await message.copy_to(chat_id=user)
+    await state.set_state(None)
+    await message.answer(text=f"Це повідомлення надіслано до {user1_name}",reply_markup=home(message.from_user.id))
 
 @dp.message(Menu.all_rosilka)
 async def  all_rosilka_buttons(message: Message,state) -> None:
@@ -162,6 +174,7 @@ async def echo_handler(message: Message) -> None:
 #         await message.send_copy(chat_id=message.chat.id)
 async def main() -> None:
     bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+    await create_db()
     await dp.start_polling(bot)
 
 

@@ -1,7 +1,5 @@
 from sqlalchemy import select
-
 from Databaze.models import user
-
 
 async def add_user(session,telegram_id,user_name,telegram_name):
       new_user=user(telegram_id=telegram_id,telegram_name=telegram_name,user_name=user_name)
@@ -16,3 +14,8 @@ async def get_users(session):
     user1=select(user)
     result=await session.execute(user1)
     return result.scalars().all()
+
+async def get_user_by_telegram_name(session,name):
+    user1=select(user).where(user.telegram_name == name)
+    result = await session.execute(user1)
+    return result.scalar_one_or_none()

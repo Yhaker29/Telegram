@@ -38,3 +38,9 @@ def наліпка():
     keyboard.button(text='Так',style='success')
     keyboard.button(text='Ні', style='danger')
     return keyboard.adjust(4).as_markup(resize_keyboard=True)
+
+def наліпка_адмін():
+    keyboard = ReplyKeyboardBuilder()
+    keyboard.button(text='Так, додати наліпку',style='success')
+    keyboard.button(text='Ні, скасувати ', style='danger')
+    return keyboard.adjust(4).as_markup(resize_keyboard=True)
