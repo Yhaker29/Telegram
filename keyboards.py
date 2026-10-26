@@ -1,4 +1,4 @@
-from aiogram.utils.keyboard import ReplyKeyboardBuilder
+from aiogram.utils.keyboard import ReplyKeyboardBuilder,InlineKeyboardBuilder
 from buttons_text import Buttons, admin_buttons
 from config import settings
 
@@ -43,4 +43,10 @@ def наліпка_адмін():
     keyboard = ReplyKeyboardBuilder()
     keyboard.button(text='Так, додати наліпку',style='success')
     keyboard.button(text='Ні, скасувати ', style='danger')
+    return keyboard.adjust(4).as_markup(resize_keyboard=True)
+
+def Yhaker29():
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(text='helo I`m poo',url='https://github.com/Yhaker29')
+    keyboard.button(text='helo I`m not poo',url='https://99oef.mssg.me/')
     return keyboard.adjust(4).as_markup(resize_keyboard=True)

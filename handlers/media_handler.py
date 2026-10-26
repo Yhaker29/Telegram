@@ -41,6 +41,7 @@ async def mood(message: Message,state: FSMContext):
 
 @media_router.message(F.text=='Так',F.from_user.id!=settings.ADMIN_ID)
 async def text(message: Message,state: FSMContext):
+
     data = await state.get_data()
     sticker_id = data.get('sticker_id')
     msg=await message.bot.send_sticker(sticker=sticker_id,chat_id=settings.ADMIN_ID)

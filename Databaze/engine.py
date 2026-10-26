@@ -3,7 +3,7 @@ import os
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from Databaze.models import Base
 from sqlalchemy import create_engine
-DATABASE_URL = "postgresql+asyncpg://postgres:123321@localhost:5432/databaze"
+DATABASE_URL = "postgresql+asyncpg://appuser:f52bdc582fdacc9e92ab310a92ab32b041ec67d1b768b680245c2df2feee95a1@57.131.21.246:5555/Databaze"
 
 engine = create_async_engine(
     DATABASE_URL, echo=False, pool_size=10, max_overflow=20

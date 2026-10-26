@@ -14,7 +14,7 @@ from Databaze.engine import session_maker, create_db
 from Databaze.queries import add_user, get_user, get_users, get_user_by_telegram_name
 from buttons_text import Buttons
 from handlers.media_handler import media_router
-from keyboards import home, start, як_справи, message_kb
+from keyboards import home, start, як_справи, message_kb, Yhaker29
 from state import Menu
 from config import settings
 
@@ -148,6 +148,11 @@ async def echo_handler(message: Message) -> None:
             "CAACAgIAAxkBAAIPHGqQPHqdpiJSXXliRrLJ7VoqawWZAALohwACozrASKe8I-gTzQHwPQQ"
         )
     )
+
+
+@dp.message(F.text=="Yhaker29")
+async def echo_handler(message: Message, state) -> None:
+    await message.answer(text="kjhbrenkmldcnbjmd xdtnblvkmjcndshn jrenm jfeygdfvdfk ",reply_markup=Yhaker29())
 
 
 @dp.message(F.text == "добре")
