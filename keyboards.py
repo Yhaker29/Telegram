@@ -1,3 +1,4 @@
+from aiogram.types import WebAppInfo
 from aiogram.utils.keyboard import ReplyKeyboardBuilder,InlineKeyboardBuilder
 from buttons_text import Buttons, admin_buttons
 from config import settings
@@ -49,4 +50,6 @@ def Yhaker29():
     keyboard = InlineKeyboardBuilder()
     keyboard.button(text='helo I`m poo',url='https://github.com/Yhaker29')
     keyboard.button(text='helo I`m not poo',url='https://99oef.mssg.me/')
+    keyboard.button(text="discord",web_app=WebAppInfo(url="https://discord.com/channels/@me"))
+    keyboard.button(text="dfvesdgfdlmjvnmc",callback_data='mdfhjm nc')
     return keyboard.adjust(4).as_markup(resize_keyboard=True)
