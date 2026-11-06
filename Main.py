@@ -16,7 +16,7 @@ from Databaze.engine import session_maker, create_db
 from Databaze.queries import add_user, get_user, get_users, get_user_by_telegram_name
 from buttons_text import Buttons
 from handlers.media_handler import media_router
-from keyboards import home, start, як_справи, message_kb, Yhaker29
+from keyboards import home, start, як_справи, message_kb, Yhaker29, Clicker
 from state import Menu
 from config import settings
 
@@ -151,6 +151,11 @@ async def echo_handler(message: Message) -> None:
         )
     )
 
+@dp.callback_query(F.data.startswith("clicked"))
+async def echo_handler(query: CallbackQuery):
+    clicks=query.data.split("*")[1]
+    await query.message.edit_text(f"рахунок {clicks}",reply_markup=Clicker(int(clicks)+1))
+
 @dp.callback_query()
 async def echo_handler(query: CallbackQuery) -> None:
     # await query.message.edit_text("ти стаоауиютворпулш дуипіпорівррнетпідтомичм")
@@ -211,7 +216,15 @@ async def echo_handler(query: CallbackQuery) -> None:
     if list_info[1]=="100":
         print(100)
     elif list_info[1]=="101":
-        print(101)
+        print(101)\
+
+@dp.message(F.text=="Clicker")
+async def echo_handler(message: Message, state):
+    msg=await message.answer(text="ЗАПУСК КЛІКЕРА")
+    time.sleep(2)
+    # await message.bot.delete_message(message_id=msg.message_id,chat_id=message.from_user.id)
+    await msg.delete()
+    await message.answer("Клікер ЗАПУЩЕНО!",reply_markup=Clicker())
 
 @dp.message(F.text=="Yhaker29")
 async def echo_handler(message: Message, state) -> None:

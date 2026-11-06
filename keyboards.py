@@ -54,3 +54,9 @@ def Yhaker29():
     keyboard.button(text="dfvesdgfdlmjvnmc",callback_data='menu*100')
     keyboard.button(text="dfvesdgfdlmjvnmc",callback_data='menu*101')
     return keyboard.adjust(4).as_markup(resize_keyboard=True)
+
+def Clicker(clicks=0):
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(text="КЛІКНУТИ",style='success',callback_data=f'clicked*{clicks}')
+    keyboard.button(text="завершити", style='danger',callback_data="finish")
+    return keyboard.adjust(1).as_markup(resize_keyboard=True)
