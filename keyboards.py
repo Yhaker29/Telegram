@@ -14,6 +14,7 @@ def home(admin_ID=None):
     keyboard.button(text='як справи?', style='primary')
     keyboard.button(text='дай наліпку')
     keyboard.button(text='Дай фото')
+    keyboard.button(text="тварина")
     return keyboard.adjust(4).as_markup(resize_keyboard=True)
 
 def message_kb(users):
@@ -60,3 +61,21 @@ def Clicker(clicks=0):
     keyboard.button(text="КЛІКНУТИ",style='success',callback_data=f'clicked*{clicks}')
     keyboard.button(text="завершити", style='danger',callback_data="finish")
     return keyboard.adjust(1).as_markup(resize_keyboard=True)
+
+def pets_h_or_e():
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(text="Домашня тварина",style='success',callback_data="home pet")
+    keyboard.button(text="Дика тварина",style='danger',callback_data="exotic pet")
+    return keyboard.adjust(2).as_markup(resize_keyboard=True)
+
+def pets_dog_or_cat():
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(text="кіт",callback_data="pets_cat")
+    keyboard.button(text="собака", callback_data="pets_dog")
+    return keyboard.adjust(2).as_markup(resize_keyboard=True)
+
+def pets_bool_or_goat():
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(text="бик", callback_data="pets_bool")
+    keyboard.button(text="козел", callback_data="pets_goat")
+    return keyboard.adjust(2).as_markup(resize_keyboard=True)

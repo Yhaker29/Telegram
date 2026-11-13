@@ -16,7 +16,8 @@ from Databaze.engine import session_maker, create_db
 from Databaze.queries import add_user, get_user, get_users, get_user_by_telegram_name
 from buttons_text import Buttons
 from handlers.media_handler import media_router
-from keyboards import home, start, як_справи, message_kb, Yhaker29, Clicker
+from keyboards import home, start, як_справи, message_kb, Yhaker29, Clicker, pets_h_or_e, pets_dog_or_cat, \
+    pets_bool_or_goat
 from state import Menu
 from config import settings
 
@@ -150,6 +151,34 @@ async def echo_handler(message: Message) -> None:
             "CAACAgIAAxkBAAIPHGqQPHqdpiJSXXliRrLJ7VoqawWZAALohwACozrASKe8I-gTzQHwPQQ"
         )
     )
+
+@dp.message(F.text=='тварина')
+async def echo_handler(message: Message, state) -> None:
+    await message.answer(text="обери",reply_markup=pets_h_or_e())
+
+@dp.callback_query(F.data=="home pet")
+async def echo_handler(query: CallbackQuery) -> None:
+    await query.message.edit_text(text="касний вибір! тепер обери це!",reply_markup=pets_dog_or_cat())
+
+@dp.callback_query(F.data=="exotic pet")
+async def echo_handler(query: CallbackQuery) -> None:
+    await query.message.edit_text(text="дикий вибір! тепер обери це!", reply_markup=pets_bool_or_goat())
+
+@dp.callback_query(F.data=="pets_bool")
+async def echo_handler(query: CallbackQuery) -> None:
+    await query.answer(text="Кабан як свиня ну таке саме")
+
+@dp.callback_query(F.data=="pets_goat")
+async def echo_handler(query: CallbackQuery) -> None:
+    await query.answer(text="Козел ну як баран тільки завод молока")
+
+@dp.callback_query(F.data=="pets_cat")
+async def echo_handler(query: CallbackQuery) -> None:
+    await query.answer(text="У мене є кіт! Ну точніше 2 коти...")
+
+@dp.callback_query(F.data=="pets_dog")
+async def echo_handler(query: CallbackQuery) -> None:
+    await query.answer(text="У мого друга є вобака вже їй 20 років! Або більше... час летить..........")
 
 @dp.callback_query(F.data.startswith("clicked"))
 async def echo_handler(query: CallbackQuery):
