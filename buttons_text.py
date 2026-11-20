@@ -12,11 +12,13 @@ class Buttons(StrEnum):
     roblox="Roblox🔲"
     all_rosilka="Масова росилка"
     message="Повідомлення"
+    Clicker="клікер"
 admin_buttons= {
     Buttons.hello.value: Style.success,
     Buttons.goodbye.value: Style.danger,
     Buttons.roblox: None,
     Buttons.all_rosilka: None,
     Buttons.message: None,
+    Buttons.Clicker: None,
 }
 

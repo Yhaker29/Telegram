@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, update
 from Databaze.models import user, sticers
 
 
@@ -26,3 +26,8 @@ async def add_sticer(session, sticer_id):
     new_user = sticers( sticker_id= sticer_id)
     session.add(new_user)
     await session.commit()
+
+async def update_user_role(session,telegram_id,role):
+    role_request=update(user).where(user.telegram_id == telegram_id).values(role=role)
+    result=await session.execute(role_request)
+    session.commit()

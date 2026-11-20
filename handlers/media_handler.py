@@ -22,11 +22,13 @@ async def sticker(message: Message):
         b.append(message.sticker.file_id)
     with open("sticker.json", 'w') as file:
         json.dump(b, file,indent=4)
+
 @media_router.message(F.text=='дай наліпку')
 async def text(message: Message):
     with open("sticker.json", 'r') as file:
         b= json.load(file)
     await message.answer_sticker(sticker=random.choice(b))
+
 @media_router.message(F.sticker)
 async def sticker(message: Message,state: FSMContext):
     sticker_id = message.sticker.file_id

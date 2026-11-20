@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, BigInteger, String, Boolean
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.sql import roles
 
 
 class Base(DeclarativeBase):
@@ -10,6 +11,8 @@ class user(Base):
     telegram_id:Mapped[int] = mapped_column(BigInteger)
     telegram_name:Mapped[str] = mapped_column(String)
     user_name: Mapped[str] = mapped_column(String,nullable=True)
+    role:Mapped[str]=mapped_column(String,nullable=True)
+
 class sticers(Base):
     __tablename__ = "sticers"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)

@@ -15,6 +15,8 @@ def home(admin_ID=None):
     keyboard.button(text='дай наліпку')
     keyboard.button(text='Дай фото')
     keyboard.button(text="тварина")
+    keyboard.button(text="смішний факт")
+
     return keyboard.adjust(4).as_markup(resize_keyboard=True)
 
 def message_kb(users):
@@ -59,7 +61,7 @@ def Yhaker29():
 def Clicker(clicks=0):
     keyboard = InlineKeyboardBuilder()
     keyboard.button(text="КЛІКНУТИ",style='success',callback_data=f'clicked*{clicks}')
-    keyboard.button(text="завершити", style='danger',callback_data="finish")
+    keyboard.button(text="завершити", style='danger',callback_data="finish_clicker")
     return keyboard.adjust(1).as_markup(resize_keyboard=True)
 
 def pets_h_or_e():

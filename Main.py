@@ -8,6 +8,7 @@ from aiogram import Bot, Dispatcher, html, F
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
+from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, ReplyKeyboardRemove, FSInputFile, CallbackQuery
 from aiogram.utils import keyboard
 
@@ -181,12 +182,18 @@ async def echo_handler(query: CallbackQuery) -> None:
     await query.answer(text="У мого друга є вобака вже їй 20 років! Або більше... час летить..........")
 
 @dp.callback_query(F.data.startswith("clicked"))
-async def echo_handler(query: CallbackQuery):
+async def echo_handler(query: CallbackQuery,state):
     clicks=query.data.split("*")[1]
+    await state.update_data(clicks=int(clicks)+1)
     await query.message.edit_text(f"рахунок {clicks}",reply_markup=Clicker(int(clicks)+1))
 
-@dp.callback_query()
-async def echo_handler(query: CallbackQuery) -> None:
+@dp.callback_query(F.data.startswith("finish_clicker"))
+async def echo_handler(query: CallbackQuery,state):
+    data=await state.get_data()
+    await query.message.edit_text(text=f"ваш рахунок {data.get("clicks")} був завершений")
+
+# @dp.callback_query()
+# async def echo_handler(query: CallbackQuery) -> None:
     # await query.message.edit_text("ти стаоауиютворпулш дуипіпорівррнетпідтомичм")
     # time.sleep(5)
     # await query.message.edit_text("ти зрозумів?")
@@ -240,20 +247,23 @@ async def echo_handler(query: CallbackQuery) -> None:
     # await query.message.answer_sticker(
     #     sticker=(
     #             "CAACAgIAAxkBAAIHEGrk22ZbBX279IPuE5Frip_lg5JAAALeAAOWn4wOxNomL8VTYbQ9BA"))
-    info=query.data
-    list_info=info.split("*")
-    if list_info[1]=="100":
-        print(100)
-    elif list_info[1]=="101":
-        print(101)\
+    # info=query.data
+    # list_info=info.split("*")
+    # if list_info[1]=="100":
+    #     print(100)
+    # elif list_info[1]=="101":
+    #     print(101)\
 
-@dp.message(F.text=="Clicker")
+@dp.message(F.text=="клікер")
 async def echo_handler(message: Message, state):
     msg=await message.answer(text="ЗАПУСК КЛІКЕРА")
     time.sleep(2)
-    # await message.bot.delete_message(message_id=msg.message_id,chat_id=message.from_user.id)
     await msg.delete()
-    await message.answer("Клікер ЗАПУЩЕНО!",reply_markup=Clicker())
+    data=await state.get_data()
+    clicks=(data.get("clicks"))
+    if not clicks:
+        clicks=0
+    await message.answer("Клікер ЗАПУЩЕНО!",reply_markup=Clicker(clicks))
 
 @dp.message(F.text=="Yhaker29")
 async def echo_handler(message: Message, state) -> None:
